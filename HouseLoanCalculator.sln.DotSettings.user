@@ -1,0 +1,13 @@
+﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=7b11e63a_002D10f7_002D4177_002Db609_002D97cff185bb73/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="Get_Average_Exchange_Currency_Return_Value" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::D790608C-F599-4F9E-989A-6697810FC1E8::net5.0::Integration.NBP.Tests.ExchangeCurrencyControllerTests.Get_Average_Exchange_Currency_Return_Value&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=f7e78cf3_002D9736_002D4baf_002D84a4_002D35a69c774c86/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="Get_Average_Exchange_Currency_Return_Value #2" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::D790608C-F599-4F9E-989A-6697810FC1E8::net5.0::Integration.NBP.Tests.ExchangeCurrencyControllerTests.Get_Average_Exchange_Currency_Return_Value&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
+	<s:Boolean x:Key="/Default/ResxEditorPersonal/CheckedGroups/=Integration_002FNBP_002FProperties_002FResources/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/ResxEditorPersonal/Initialized/@EntryValue">True</s:Boolean></wpf:ResourceDictionary>
