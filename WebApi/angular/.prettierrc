@@ -1,0 +1,12 @@
+{
+    "tabWidth": 4,
+    "singleQuote": true,
+    "printWidth": 170,
+    "overrides": [{
+        "files": ["*.html"],
+        "options": {
+          "tabWidth": 2,
+          "printWidth": 170
+        }
+      }]                                                                                                                                                                 
+}

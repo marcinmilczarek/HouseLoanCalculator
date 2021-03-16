@@ -4,6 +4,7 @@ using Microsoft.Extensions.Logging;
 
 namespace WebApi.Controllers
 {
+    [ApiController]
     public class OidcConfigurationController : Controller
     {
         private readonly ILogger<OidcConfigurationController> _logger;

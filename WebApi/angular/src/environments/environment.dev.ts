@@ -5,5 +5,5 @@ export const environment = {
   ...defaultEnvironment,
   ...Environment,
 
-  production: true
+  production: false  
 };

@@ -1,21 +1,29 @@
 {
-  "compileOnSave": false,
   "compilerOptions": {
-    "baseUrl": "./",
-    "module": "esnext",
-    "outDir": "./dist/out-tsc",
-    "sourceMap": true,
-    "declaration": false,
-    "moduleResolution": "node",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
+    "outDir": "./dist/out-tsc",
+    "module": "esnext",
+    "noEmitOnError": true,
+    "noImplicitAny": true,
+    "removeComments": true,
+    "sourceMap": true,
     "target": "es2015",
-    "typeRoots": [
-      "node_modules/@types"
-    ],
-    "lib": [
-      "es2017",
-      "dom"
-    ]
-  }
+    "moduleResolution": "node",
+    "lib": [ "es2017", "dom" ],
+    "types": [ "node" ],
+    "baseUrl": "./src",
+    "resolveJsonModule": true,
+    "paths": {
+      "@hlc/services": ["app/services/index.ts"],
+      "@hlc/shared/*": ["app/shared/*"],
+      "@hlc/environment": ["environments/environment"]
+    }
+  },
+  "exclude": [
+    "node_modules",
+    "src\\environments\\environment.defaults.ts",
+    "src\\environments\\environment.dev.ts",
+    "src\\environments\\environment.prod.ts"
+  ]
 }
