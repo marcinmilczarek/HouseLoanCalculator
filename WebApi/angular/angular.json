@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "hlc": {
+    "loancalc": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -12,7 +12,7 @@
       },
       "root": "",
       "sourceRoot": "src",
-      "prefix": "hlc",
+      "prefix": "loancalc",
       "architect": {
         "build": {
           "builder": "@angular-builders/custom-webpack:browser",
@@ -73,11 +73,11 @@
         "serve": {
           "builder": "@angular-builders/custom-webpack:dev-server",
           "options": {
-            "browserTarget": "hlc:build"
+            "browserTarget": "loancalc:build"
           },
           "configurations": {
             "dev": {
-              "browserTarget": "hlc:build:dev"
+              "browserTarget": "loancalc:build:dev"
             }
           }
         },
@@ -120,5 +120,5 @@
       }
     }
   },
-  "defaultProject": "hlc"
+  "defaultProject": "loancalc"
 }

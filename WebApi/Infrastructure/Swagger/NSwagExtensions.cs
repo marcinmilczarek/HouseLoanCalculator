@@ -26,8 +26,8 @@ namespace WebApi.Infrastructure.Swagger
                 //         {
                 //             Password = new OpenApiOAuthFlow
                 //             {
-                //                 TokenUrl = $"/api/hlc/gui/{ApplicationOAuthConsts.TokenUrl}",
-                //                 RefreshUrl = $"/api/hlc/gui/{ApplicationOAuthConsts.TokenUrl}"
+                //                 TokenUrl = $"/api/loancalc/gui/{ApplicationOAuthConsts.TokenUrl}",
+                //                 RefreshUrl = $"/api/loancalc/gui/{ApplicationOAuthConsts.TokenUrl}"
                 //             }
                 //         }
                 //     }));

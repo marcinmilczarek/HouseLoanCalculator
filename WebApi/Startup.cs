@@ -32,7 +32,7 @@ namespace WebApi
 
             services.AddControllers(options =>
                 {
-                    options.UseGeneralRoutePrefix("api/hlc/gui");
+                    options.UseGeneralRoutePrefix("api/loancalc/gui");
                     options.Filters.Add(new HttpResponseExceptionFilter());
                     options.RespectBrowserAcceptHeader = true; // false by default
                 })

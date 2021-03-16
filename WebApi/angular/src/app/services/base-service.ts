@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { environment } from '@hlc/environment';
+import { environment } from '@loancalc/environment';
 
 export abstract class BaseService { 
     private serviceUrl: string;

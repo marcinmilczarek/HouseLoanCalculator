@@ -1,5 +1,5 @@
 {
-  "name": "hlc",
+  "name": "loancalc",
   "version": "1.0.0",
   "repository": {
     "type": "git",
@@ -7,10 +7,10 @@
   },
   "scripts": {
     "start": "ng serve",
-    "build:dev": "npm install && ng build --watch -c=dev --base-href /hlc/",
-    "build:prod": "ng build -c=prod --base-href /hlc/",
-    "serve:dev": "ng serve -c=dev --base-href /hlc/",
-    "build:ssr": "ng run hlc:server:dev --base-href /hlc/",
+    "build:dev": "npm install && ng build --watch -c=dev --base-href /loancalc/",
+    "build:prod": "ng build -c=prod --base-href /loancalc/",
+    "serve:dev": "ng serve -c=dev --base-href /loancalc/",
+    "build:ssr": "ng run loancalc:server:dev --base-href /loancalc/",
     "lint": "ng lint"
   },
   "private": true,

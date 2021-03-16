@@ -15,9 +15,9 @@
     "baseUrl": "./src",
     "resolveJsonModule": true,
     "paths": {
-      "@hlc/services": ["app/services/index.ts"],
-      "@hlc/shared/*": ["app/shared/*"],
-      "@hlc/environment": ["environments/environment"]
+      "@loancalc/services": ["app/services/index.ts"],
+      "@loancalc/shared/*": ["app/shared/*"],
+      "@loancalc/environment": ["environments/environment"]
     }
   },
   "exclude": [

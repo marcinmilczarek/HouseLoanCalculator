@@ -5,6 +5,7 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 
 import { AppComponent } from './app.component';
+import { DescriptionComponent } from './description/description.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { HomeComponent } from './home/home.component';
 import { CounterComponent } from './counter/counter.component';
@@ -17,6 +18,7 @@ import { AuthorizeInterceptor } from './../api-authorization/authorize.intercept
   declarations: [
     AppComponent,
     NavMenuComponent,
+    DescriptionComponent,
     HomeComponent,
     CounterComponent,
     FetchDataComponent
@@ -28,6 +30,7 @@ import { AuthorizeInterceptor } from './../api-authorization/authorize.intercept
     ApiAuthorizationModule,
     RouterModule.forRoot([
       { path: '', component: HomeComponent, pathMatch: 'full' },
+      { path: 'description', component: DescriptionComponent },
       { path: 'counter', component: CounterComponent },
       { path: 'fetch-data', component: FetchDataComponent, canActivate: [AuthorizeGuard] },
     ])
