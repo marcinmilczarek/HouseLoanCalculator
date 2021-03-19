@@ -22,7 +22,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "SlsInCore": {
+    "NBP": {
       "commandName": "Project",
       "launchBrowser": true,
       "launchUrl": "swagger",

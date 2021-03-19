@@ -1,6 +1,8 @@
-<body>
+<div class="site">
+  <div class="waitBox" [hidden]="!loading"></div>
   <app-nav-menu></app-nav-menu>
-  <div class="container">
-    <router-outlet></router-outlet>
+  <div class="container content" style="margin-top: inherit" [@routeFadeAnimation]="prepareRoute(outlet)">
+    <router-outlet #outlet="outlet"></router-outlet>
   </div>
-</body>
+  <app-footer style="display: block"></app-footer>
+</div>

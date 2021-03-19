@@ -28,7 +28,7 @@
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
               "node_modules/@fortawesome/fontawesome-free/css/all.css",
               "node_modules/angular-calendar/css/angular-calendar.css",
-              "src/styles.less"
+              "src/styles.less",
             ],
             "assets": [
               { "glob": "**/*", "input": "src/assets/", "ignore": ["images/*"], "output": "/assets/" },
@@ -78,31 +78,6 @@
           "configurations": {
             "dev": {
               "browserTarget": "loancalc:build:dev"
-            }
-          }
-        },
-        "server": {
-          "builder": "@angular-builders/custom-webpack:server",
-          "options": {
-            "outputPath": "dist-server",
-            "main": "src/main.ts",
-            "tsConfig": "src/tsconfig.server.json"
-          },
-          "configurations": {
-            "dev": {
-              "optimization": true,
-              "sourceMap": false,
-              "namedChunks": false,
-              "extractLicenses": true,
-              "vendorChunk": true
-            },
-            "prod": {
-              "optimization": true,
-              "outputHashing": "all",
-              "sourceMap": false,
-              "namedChunks": false,
-              "extractLicenses": true,
-              "vendorChunk": false
             }
           }
         },

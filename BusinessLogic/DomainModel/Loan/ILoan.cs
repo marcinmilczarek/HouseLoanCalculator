@@ -11,9 +11,5 @@ namespace BusinessLogic.DomainModel.Loan
         decimal GetNumberOfLoanInstallments();
 
         decimal GetValueOfLoanObject();
-        
-        //DateTime 
-
-        
     }
 }

@@ -1,0 +1,188 @@
+<div class="waitBox" [hidden]="!isLoading"></div>
+<div class="alert alert-danger" role="alert" *ngIf="isServerError">
+  {{errorMessage}}
+</div>
+
+<div class="container-fluid">
+  <div class="grid">
+      <div class="controller-container">
+        <h2>Data for loan calculation:</h2>
+        <div class="row" style="margin: 0">
+          <div class="col-md-10 form-group form">
+            <label for="LoanCalculatorComponent_HomePrice">Home price</label>
+            <div class="input-group mb-3">
+              <input
+                id="LoanCalculatorComponent_HomePriceInput"
+                type="number"
+                class="form-control form-control-sm"
+                [(ngModel)]="loanDataCalculationData.TotalValueOfLoan"
+                (ngModelChange)="valueOfLoanChanged($event)"
+                min="0"
+                max="10000000"
+                [required]="true"
+              />
+              <div class="input-group-append">
+                <span class="input-group-text">PLN</span>
+              </div>
+            </div>
+            <div class="input-range-wrapper">
+              <div class="slider-container">
+                <input
+                  id="LoanCalculatorComponent_HomePriceRange"
+                  type="range"
+                  class="form-range"
+                  step="1"
+                  min="0"
+                  max="10000000"
+                  [(ngModel)]="loanDataCalculationData.TotalValueOfLoan"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row" style="margin: 0">
+          <div class="col-md-10 form-group form">
+            <label for="LoanCalculatorComponent_NumberOfAnnualInstallments">Number of annual installments</label>
+            <div class="input-group mb-3">
+              <input
+                id="LoanCalculatorComponent_NumberOfAnnualInstallmentsInput"
+                type="number"
+                class="form-control form-control-sm"
+                [(ngModel)]="loanDataCalculationData.NumberOfAnnualInstallments"
+                (ngModelChange)="numberOfAnnualInstallmentsChanged($event)"
+                min="0"
+                max="35"
+                [required]="true"
+              />
+              <div class="input-group-append">
+                <span class="input-group-text">years</span>
+              </div>
+            </div>
+            <div class="input-range-wrapper">
+              <div class="slider-container">
+                <input id="LoanCalculatorComponent_NumberOfAnnualInstallmentsRange" type="range" class="form-range" 
+                step="1" min="0" max="35" [(ngModel)]="loanDataCalculationData.NumberOfAnnualInstallments" />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row" style="margin: 0">
+          <div class="col-md-10 form-group form">
+            <label for="LoanCalculatorComponent_AnnualInterestInstallments">Annual interest installments</label>
+            <div class="input-group mb-3">
+              <input type="text" class="form-control form-control-sm" aria-label="" [(ngModel)]="loanDataCalculationData.AnnualInterestInstallments" [disabled]="true" />
+              <div class="input-group-append">
+                <span class="input-group-text">%</span>
+              </div>
+            </div>
+          </div>
+        </div>
+  
+        <div class="row" style="margin: 0 auto">
+          <div class="col-md-10 form-group form">
+            <button
+              type="button"
+              class="btn btn-primary"
+              id="LoanCalculatorComponent_CalculateButton"
+              style="min-width: 100px"
+              *ngIf="isneccesaryDataCompleted()"
+              (click)="calculatePayments()"
+            >
+              Calculate
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="col-xs-2 vertical-divider"></div>
+      <div class="controller-container">
+        <h2>Loan repayment summary:</h2>
+        <div class="row">
+          <div class="col-sm">
+            <div class="col-md-10 form-group form">
+              <label for="LoanCalculatorComponent_TotalPayment">Total Payment</label>
+              <div class="input-group mb-3">
+                <input
+                  id="LoanCalculatorComponent_TotalPayment"
+                  type="text"
+                  class="form-control form-control-sm"
+                  [(ngModel)]="displayedLoanPaymentSummary.TotalPayment"
+                  [disabled]="true"
+                />
+                <div class="input-group-append">
+                  <span class="input-group-text">PLN</span>
+                </div>
+              </div>
+  
+              <label for="LoanCalculatorComponent_MonthlyPayment">Monthly Payment</label>
+              <div class="input-group mb-3">
+                <input
+                  id="LoanCalculatorComponent_MonthlyPayment"
+                  type="text"
+                  class="form-control form-control-sm"
+                  [(ngModel)]="displayedLoanPaymentSummary.MonthlyPayment"
+                  [disabled]="true"
+                />
+                <div class="input-group-append">
+                  <span class="input-group-text">PLN</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm">
+            <div class="col-md-10 form-group form">
+              <label for="LoanCalculatorComponent_TotalInterest">Total Interest</label>
+              <div class="input-group mb-3">
+                <input
+                  id="LoanCalculatorComponent_TotalInterest"
+                  type="text"
+                  class="form-control form-control-sm"
+                  [(ngModel)]="displayedLoanPaymentSummary.TotalInterest"
+                  [disabled]="true"
+                />
+                <div class="input-group-append">
+                  <span class="input-group-text">PLN</span>
+                </div>
+              </div>
+  
+              <label for="LoanCalculatorComponent_MonthlyInterest">Amount of Monthly Interest</label>
+              <div class="input-group mb-3">
+                <input
+                  id="LoanCalculatorComponent_MonthlyInterest"
+                  type="text"
+                  class="form-control form-control-sm"
+                  [(ngModel)]="displayedLoanPaymentSummary.MonthlyInterest"
+                  [disabled]="true"
+                />
+                <div class="input-group-append">
+                  <span class="input-group-text">PLN</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+  </div>
+
+  <div class="grid" style="margin-top: 10px" *ngIf="isLoanPaymentsMonthlySummary">
+    <table class="table table-striped" aria-labelledby="tableLabel">
+      <thead>
+        <tr>
+          <th>Number installment</th>
+          <th>Monthly amount of interest</th>
+          <th>Monthly total payment</th>
+          <th>Amount of capital repaid </th>
+          <th>Amount of capital principal outstanding </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let monthlyInstallmentData of loanPaymentSummary.MonthlyInstallmentData">
+          <td>{{ monthlyInstallmentData.Id }}</td>
+          <td>{{ monthlyInstallmentData.AmountOfInterest }}</td>
+          <td>{{ monthlyInstallmentData.AmountOfCapitalAndInterest }}</td>
+          <td>{{ monthlyInstallmentData.AmountOfCapitalRepaid }}</td>
+          <td>{{ monthlyInstallmentData.AmountofPrincipalOutstanding }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

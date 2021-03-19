@@ -8,6 +8,8 @@ using WebApi.Models;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using WebApi.Infrastructure.ExceptionHandling;
 using WebApi.Infrastructure.GlobalPrefix;
 using WebApi.Infrastructure.Swagger;
@@ -36,8 +38,21 @@ namespace WebApi
                     options.Filters.Add(new HttpResponseExceptionFilter());
                     options.RespectBrowserAcceptHeader = true; // false by default
                 })
-                .AddControllersAsServices();
-                
+                .AddControllersAsServices()
+                .AddNewtonsoftJson(o =>
+                {
+                    o.SerializerSettings.DateTimeZoneHandling = DateTimeZoneHandling.Local;
+                    o.SerializerSettings.ContractResolver = new DefaultContractResolver();
+                    ((DefaultContractResolver)o.SerializerSettings.ContractResolver).IgnoreSerializableAttribute = true;
+                })
+                .AddJsonOptions(o =>
+                {
+                    o.JsonSerializerOptions.PropertyNamingPolicy = null;
+                    o.JsonSerializerOptions.IgnoreNullValues = true;
+                    o.JsonSerializerOptions.IncludeFields = true;
+                })
+                ;
+            
             services.AddSwaggerConfiguration();
             
             services.AddDatabaseDeveloperPageExceptionFilter();
