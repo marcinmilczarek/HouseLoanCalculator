@@ -1,5 +1,23 @@
-bin/
-obj/
+
+# user specific files
+*.suo
+*.user
+
+# build results 
+[Bb]in/
+[Oo]bj/
+x64
+x86
+
+
+# jetbrains rider directory
+.idea/
+
+# ms test results
+[Tt]est[Rr]esult*/
+[Bb]uild[Ll]og.*
+
+
 /packages/
 riderModule.iml
 /_ReSharper.Caches/
