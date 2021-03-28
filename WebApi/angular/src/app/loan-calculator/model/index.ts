@@ -1,1 +1,2 @@
-export { DisplayedLoanPaymentSummary } from './DisplayedLoanPaymentSummary';
+export { PaymentSummaryVM } from './PaymentSummaryVM';
+export { AmountOfPaymentVM } from './AmountOfPaymentVM';
