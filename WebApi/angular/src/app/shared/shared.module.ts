@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { LazyImgDirective } from './directives/lazy-img.directive';
 import { ChartsModule } from 'ng2-charts';
-import { DoughnutChartComponent } from './charts/doughnut-chart/doughnut-chart.component';
+import { DoughnutChartComponent, LineChartComponent} from './charts';
 
 @NgModule({
     imports: [
@@ -14,12 +14,14 @@ import { DoughnutChartComponent } from './charts/doughnut-chart/doughnut-chart.c
     ],
     declarations: [
         LazyImgDirective,
-        DoughnutChartComponent
+        DoughnutChartComponent,
+        LineChartComponent
     ],
     exports: [
         LazyImgDirective,
         FormsModule,
-        DoughnutChartComponent
+        DoughnutChartComponent,
+        LineChartComponent
     ],
     providers: [
     ]

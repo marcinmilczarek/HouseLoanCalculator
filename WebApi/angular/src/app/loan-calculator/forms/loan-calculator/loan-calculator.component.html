@@ -17,7 +17,7 @@
                   <label for="LoanCalculatorComponent_HomePrice">Home price</label>
                   <div class="input-group mb-3">
                     <input id="LoanCalculatorComponent_HomePriceInput" type="number"
-                      class="form-control form-control-sm" [(ngModel)]="loanDataCalculationData.TotalValueOfLoan"
+                      class="form-control form-control-sm" [(ngModel)]="dataToCalculation.TotalValueOfLoan"
                       (ngModelChange)="valueOfLoanChanged($event)" min="0" max="10000000" [required]="true" />
                     <div class="input-group-append">
                       <span class="input-group-text">PLN</span>
@@ -26,7 +26,7 @@
                   <div class="input-range-wrapper">
                     <div class="slider-container">
                       <input id="LoanCalculatorComponent_HomePriceRange" type="range" class="form-range" step="1"
-                        min="0" max="10000000" [(ngModel)]="loanDataCalculationData.TotalValueOfLoan" />
+                        min="0" max="10000000" [(ngModel)]="dataToCalculation.TotalValueOfLoan" />
                     </div>
                   </div>
                 </div>
@@ -37,7 +37,7 @@
                   <div class="input-group mb-3">
                     <input id="LoanCalculatorComponent_NumberOfAnnualInstallmentsInput" type="number"
                       class="form-control form-control-sm"
-                      [(ngModel)]="loanDataCalculationData.NumberOfAnnualInstallments"
+                      [(ngModel)]="dataToCalculation.NumberOfAnnualInstallments"
                       (ngModelChange)="numberOfAnnualInstallmentsChanged($event)" min="0" max="35" [required]="true" />
                     <div class="input-group-append">
                       <span class="input-group-text">years</span>
@@ -47,7 +47,7 @@
                     <div class="slider-container">
                       <input id="LoanCalculatorComponent_NumberOfAnnualInstallmentsRange" type="range"
                         class="form-range" step="1" min="0" max="35"
-                        [(ngModel)]="loanDataCalculationData.NumberOfAnnualInstallments" />
+                        [(ngModel)]="dataToCalculation.NumberOfAnnualInstallments" />
                     </div>
                   </div>
                 </div>
@@ -57,7 +57,7 @@
                   <label for="LoanCalculatorComponent_AnnualInterestInstallments">Annual interest installments</label>
                   <div class="input-group mb-3">
                     <input type="text" class="form-control form-control-sm" aria-label=""
-                      [(ngModel)]="loanDataCalculationData.AnnualInterestInstallments" [disabled]="true" />
+                      [(ngModel)]="dataToCalculation.AnnualInterestInstallments" [disabled]="true" />
                     <div class="input-group-append">
                       <span class="input-group-text">%</span>
                     </div>
@@ -142,12 +142,11 @@
                 </table>
               </div>
 
-              <!-- TODO add line charts with point sizes -->
-              <!-- <div *ngIf="isEnabledTotalPaymentChart" id="LoanCalculatorComponent_TotalPaymentChart">
-                <doughnut-chart [doughnutChartLabels]="totalPaymentsChartLabels"
-                  [doughnutChartData]="totalPaymentsChartData" [doughnutChartColors]="TotalPaymentsChartColors">
-                </doughnut-chart>
-              </div> -->
+              <div *ngIf="isEnabledTotalPaymentChart" id="LoanCalculatorComponent_TotalPaymentChart">
+                <line-chart [lineChartLabels]="totalPaymentsChartLabels"
+                  [lineChartdata]="totalPaymentsChartData" [lineChartColors]="totalPaymentsChartColors">
+                </line-chart> 
+              </div>
 
             </ng-template>
           </li>

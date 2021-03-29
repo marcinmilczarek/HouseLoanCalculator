@@ -20,7 +20,7 @@ export class LoanCalculatorComponent implements OnInit {
 
     errorMessage: string;
 
-    //TODO move to tab
+    //TODO move to control
     isLoanPaymentsMonthlySummary: boolean = false;
 
     isEnabledMonthlyPaymentChart: boolean = false;
