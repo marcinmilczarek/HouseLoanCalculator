@@ -1,6 +1,5 @@
 import { Component, Input } from '@angular/core';
-import * as Chart from 'chart.js';
-import { ChartType } from 'chart.js';
+import { ChartOptions, ChartType } from 'chart.js';
 import { Color, Label, MultiDataSet} from 'ng2-charts';
 
 
@@ -15,6 +14,7 @@ export class DoughnutChartComponent {
   @Input() doughnutChartData: MultiDataSet[] = [];
   @Input() doughnutChartColors: Color[] = [];
   doughnutChartType : ChartType = 'doughnut';
+  doughnutOptions: ChartOptions = { responsive: true, maintainAspectRatio: false};
 
   constructor() { }
 

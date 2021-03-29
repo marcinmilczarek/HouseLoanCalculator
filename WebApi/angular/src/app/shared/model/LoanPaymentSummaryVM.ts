@@ -4,7 +4,7 @@ import { MonthlyInstallmentDataVM } from './MonthlyInstallmentDataVm';
 export interface ILoanPaymentSummaryVM {
     TotalPayment: number;
     TotalInterest: number;
-    TotalLoanAmount: number;
+    TotalValueOfLoan: number;
     MonthlyPayment: number;
     MonthlyInterest: number;
     NumberOfMonthlyIntallments: number;
@@ -16,7 +16,7 @@ export interface ILoanPaymentSummaryVM {
 export class LoanPaymentSummaryVM implements ILoanPaymentSummaryVM {
     TotalPayment: number;
     TotalInterest: number;
-    TotalLoanAmount: number;
+    TotalValueOfLoan: number;
     MonthlyPayment: number;
     MonthlyInterest: number;
     NumberOfMonthlyIntallments: number;
