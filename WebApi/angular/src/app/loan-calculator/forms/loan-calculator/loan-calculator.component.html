@@ -1,4 +1,4 @@
-<div class="waitBox" [hidden]="!isLoading"></div>
+<div class="waitBox" [hidden]="!isLoanCalculatorDataLoading"></div>
 <div class="alert alert-danger" role="alert" *ngIf="isServerError">
   {{ errorMessage }}
 </div>
@@ -36,8 +36,7 @@
                   <label for="LoanCalculatorComponent_NumberOfAnnualInstallments">Number of annual installments</label>
                   <div class="input-group mb-3">
                     <input id="LoanCalculatorComponent_NumberOfAnnualInstallmentsInput" type="number"
-                      class="form-control form-control-sm"
-                      [(ngModel)]="dataToCalculation.NumberOfAnnualInstallments"
+                      class="form-control form-control-sm" [(ngModel)]="dataToCalculation.NumberOfAnnualInstallments"
                       (ngModelChange)="numberOfAnnualInstallmentsChanged($event)" min="0" max="35" [required]="true" />
                     <div class="input-group-append">
                       <span class="input-group-text">years</span>
@@ -82,103 +81,46 @@
 
     <div class="controller-container">
       <div style="min-width: 700px;">
-        <ul ngbNav #navSummary="ngbNav" [(activeId)]="active" class="nav-tabs justify-content-center">
+        <ul ngbNav #navSummary="ngbNav" class="nav-tabs justify-content-center">
           <li [ngbNavItem]="1">
             <a ngbNavLink>Monthly Payment Summary</a>
             <ng-template ngbNavContent>
-              <h5 style="margin-top: 2rem; text-align: center;">Monthly payment summary</h5>
-
               <div class="btn-group" role="group">
                 <button type="button" class="btn btn-outline-primary" (click)="showMonthlyChart()">Overview</button>
                 <button type="button" class="btn btn-outline-primary" (click)="showMonthlyDetails()">Details</button>
               </div>
-
-
-              <!-- TODO move to control -->
-              <div *ngIf="isEnabledMonthlyPaymentSummary" id="LoanCalculatorComponent_MonthlyPaymentSummary">
-                <table class="table" style="border-collapse:separate; border-spacing: 0 1em">
-                  <tbody>
-                    <tr style="padding: 5px; cursor: pointer;" *ngFor="let summary of monthlyPaymentSummaryVM">
-                      <td><button type="button" [ngStyle]="{'background-color': (summary.ColorLegend)}"
-                          class="btn btn-success btn-circle btn-sm"></button></td>
-                      <td style="text-align: left;">{{summary.InstallmentComponent}}</td>
-                      <td style="text-align: right;">{{summary.AmountOfPaymentVM.Amount}}</td>
-                      <td style="text-align: left;">{{summary.AmountOfPaymentVM.CurrencyCode}}</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-
-              <div *ngIf="isEnabledMonthlyPaymentChart" id="LoanCalculatorComponent_MonthlyPaymentChart">
-                <doughnut-chart [doughnutChartLabels]="monthlyPaymentsChartLabels"
-                  [doughnutChartData]="monthlyPaymentsChartData" [doughnutChartColors]="monthlyPaymentsChartColors">
-                </doughnut-chart>
-              </div>
-
+              <calculation-summary *ngIf="isEnabledMonthlyPaymentSummary"
+                id="LoanCalculatorComponent_MonthlyPaymentSummary" [paymentSummaryVM]="monthlyPaymentSummaryVM">
+              </calculation-summary>
+              <doughnut-chart *ngIf="isEnabledMonthlyPaymentChart" id="LoanCalculatorComponent_MonthlyPaymentChart"
+                [doughnutChartLabels]="monthlyPaymentsChartDataVM.Labels" [doughnutChartData]="monthlyPaymentsChartDataVM.Data"
+                [doughnutChartColors]="monthlyPaymentsChartDataVM.Colors">
+              </doughnut-chart>
             </ng-template>
           </li>
           <li [ngbNavItem]="2">
             <a ngbNavLink>Total Payment Summary</a>
             <ng-template ngbNavContent>
-              <h5 style="margin-top: 2rem; text-align: center;">Total payment summary</h5>
-
               <div class="btn-group" role="group">
                 <button type="button" class="btn btn-outline-primary" (click)="showTotalChart()">Overview</button>
                 <button type="button" class="btn btn-outline-primary" (click)="showTotalDetails()">Details</button>
               </div>
-
-              <!-- TODO move to control --> 
-              <div *ngIf="isEnabledTotalPaymentSummary" id="LoanCalculatorComponent_TotalPaymentSummary">
-                <table class="table" style="border-collapse:separate; border-spacing: 0 1em">
-                  <tbody>
-                    <tr style="padding: 5px; cursor: pointer;" *ngFor="let summary of totalPaymentSummaryVM">
-                      <td><button type="button" [ngStyle]="{'background-color': (summary.ColorLegend)}"
-                          class="btn btn-success btn-circle btn-sm"></button></td>
-                      <td style="text-align: left;">{{summary.InstallmentComponent}}</td>
-                      <td style="text-align: right;">{{summary.AmountOfPaymentVM.Amount}}</td>
-                      <td style="text-align: left;">{{summary.AmountOfPaymentVM.CurrencyCode}}</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-
-              <div *ngIf="isEnabledTotalPaymentChart" id="LoanCalculatorComponent_TotalPaymentChart">
-                <line-chart [lineChartLabels]="totalPaymentsChartLabels"
-                  [lineChartdata]="totalPaymentsChartData" [lineChartColors]="totalPaymentsChartColors">
-                </line-chart> 
-              </div>
-
+              <calculation-summary *ngIf="isEnabledTotalPaymentSummary" id="LoanCalculatorComponent_TotalPaymentSummary"
+                [paymentSummaryVM]="totalPaymentSummaryVM">
+              </calculation-summary>
+              <!-- <div *ngIf="isEnabledTotalPaymentChart" id="LoanCalculatorComponent_TotalPaymentChart">
+                <line-chart [lineChartLabels]="totalPaymentsChartLabels" [lineChartdata]="totalPaymentsChartData"
+                  [lineChartColors]="totalPaymentsChartColors">
+                </line-chart>
+              </div> -->
             </ng-template>
           </li>
           <li [ngbNavItem]="3">
             <a ngbNavLink>List of all installments</a>
             <ng-template ngbNavContent>
-
-              <!-- TODO move to control -->
-              <div class="grid" style="margin-top: 20px" *ngIf="isLoanPaymentsMonthlySummary">
-                <div class="table-responsive">
-                  <table class="table table-striped table-hover">
-                    <thead class="thead-dark">
-                      <tr>
-                        <th style="width: 45px">Number installment</th>
-                        <th>Monthly interest</th>
-                        <th>Monthly total payment</th>
-                        <th>Repaid capital</th>
-                        <th>Capital to repayment</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr *ngFor="let monthlyInstallmentData of loanPaymentSummary.MonthlyInstallmentData">
-                        <td>{{ monthlyInstallmentData.Id | number }}</td>
-                        <td>{{ monthlyInstallmentData.AmountOfInterest | number: '1.2-2' }}</td>
-                        <td>{{ monthlyInstallmentData.AmountOfCapitalAndInterest | number: '1.2-2' }}</td>
-                        <td>{{ monthlyInstallmentData.AmountOfCapitalRepaid | number: '1.2-2' }}</td>
-                        <td>{{ monthlyInstallmentData.AmountofPrincipalOutstanding | number: '1.2-2' }}</td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-              </div>
+              <list-of-intallments *ngIf="isListOfAllInstallmentsGenerated" id="LoanCalculatorComponent_ListOfInstallments"
+                [installmentDataVM]="loanPaymentSummary.MonthlyInstallmentData">
+              </list-of-intallments>
             </ng-template>
           </li>
         </ul>

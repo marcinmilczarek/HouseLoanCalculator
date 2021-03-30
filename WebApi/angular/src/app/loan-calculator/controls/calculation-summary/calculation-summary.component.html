@@ -1,0 +1,13 @@
+<div>
+    <table class="table" style="border-collapse:separate; border-spacing: 0 1em">
+        <tbody>
+            <tr style="padding: 5px; cursor: pointer;" *ngFor="let summary of paymentSummaryVM">
+                <td><button type="button" [ngStyle]="{'background-color': (summary.ColorLegend)}"
+                        class="btn btn-success btn-circle btn-sm"></button></td>
+                <td style="text-align: left;">{{summary.InstallmentComponent}}</td>
+                <td style="text-align: right;">{{summary.AmountOfPaymentVM.Amount}}</td>
+                <td style="text-align: left;">{{summary.AmountOfPaymentVM.CurrencyCode}}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>

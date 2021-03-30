@@ -7,11 +7,12 @@ import { LoanCalculatorRoutingModule } from './loan-calculator-routing.module';
 import { CommonModule } from '@angular/common';
 import * as services from './shared';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { CalculationSummaryComponent, ListOfInstallmentsComponent } from './controls';
 
 @NgModule({
     imports: [CommonModule, FormsModule, LoanCalculatorRoutingModule, SharedModule, NgbModule],
-    declarations: [LoanCalculatorComponent],
+    declarations: [CalculationSummaryComponent, ListOfInstallmentsComponent, LoanCalculatorComponent],
     exports: [],
     providers: [services.LoanCalculatorService, Location, { provide: LocationStrategy, useClass: PathLocationStrategy }],
 })
-export class LoanCalculatorModule {}
+export class LoanCalculatorModule { }

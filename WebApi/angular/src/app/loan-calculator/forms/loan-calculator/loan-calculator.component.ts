@@ -5,7 +5,8 @@ import { LoanCalculatorService } from 'app/loan-calculator/shared';
 import { catchError, finalize } from 'rxjs/operators';
 import { throwError } from 'rxjs';
 import { Label, MultiDataSet, Color } from 'ng2-charts';
-import { AmountOfPaymentVM, PaymentSummaryVM } from './../../model/';
+import { AmountOfPaymentVM, MonthlyPaymentsChartDataVM, PaymentSummaryVM } from './../../model/';
+import { ChartDataSets } from 'chart.js';
 
 @Component({
     selector: 'app-loan-calculator',
@@ -13,52 +14,60 @@ import { AmountOfPaymentVM, PaymentSummaryVM } from './../../model/';
     styleUrls: ['./loan-calculator.component.less'],
 })
 export class LoanCalculatorComponent implements OnInit {
-    dataToCalculation: ILoanCalculationDataVM;
-    loanPaymentSummary: LoanPaymentSummaryVM;
-    isLoading: boolean = false;
+    isLoanCalculatorDataLoading: boolean = false;
+    isListOfAllInstallmentsGenerated: boolean = false;
     isServerError: boolean = false;
-
     errorMessage: string;
 
-    //TODO move to control
-    isLoanPaymentsMonthlySummary: boolean = false;
+    dataToCalculation: ILoanCalculationDataVM;
+    loanPaymentSummary: LoanPaymentSummaryVM;
 
-    isEnabledMonthlyPaymentChart: boolean = false;
     isEnabledMonthlyPaymentSummary: boolean = false;
-    monthlyPaymentsChartLabels: Label[] = [];
-    monthlyPaymentsChartData: MultiDataSet = [];
-    monthlyPaymentsChartColors: Color[] = [];
+    isEnabledMonthlyPaymentChart: boolean = false;
+
+    monthlyPaymentsChartDataVM: MonthlyPaymentsChartDataVM;
     monthlyPaymentSummaryVM: PaymentSummaryVM[] = [];
 
     isEnabledTotalPaymentChart: boolean = false;
     isEnabledTotalPaymentSummary: boolean = false;
     totalPaymentSummaryVM: PaymentSummaryVM[] = [];
-
-    active = 1;
+    totalPaymentChartData: ChartDataSets[] = [
+        { data: [100, 200, 300, 800, 1200, 800, 4660], label: 'remaining capital to paid' },
+        { data: [2100, 1800, 300, 1100, 100, 80000, 40], label: 'interest paid' },
+    ];
 
     constructor(private loanCalculatorService: LoanCalculatorService) { }
 
     ngOnInit(): void {
         this.initalizedLoanCalculationData();
         this.initalizeRepamentSummary();
-        this.initializeMonthlyPaymentSummary();
+        this.initializeMonthlyPaymentChartData();
+        this.initializeMonthlyPaymentSummaryData();
         this.initializeTotalPaymentSummary();
     }
 
-    private initializeMonthlyPaymentSummary() {
+    private initalizedLoanCalculationData() {
+        this.dataToCalculation = new LoanCalculationDataVM();
+        this.dataToCalculation.AnnualInterestInstallments = 3.5;
+        this.dataToCalculation.Currency = new DictionaryRecordVM('PLN', 1);
+    }
 
+    private initializeMonthlyPaymentSummaryData() {
         let defaultValue = 0;
         let defaultAmountOfPaymentVM = new AmountOfPaymentVM(defaultValue.toFixed(2), "PLN");
-        this.monthlyPaymentsChartLabels = ['Capital', 'Interest'];
-        this.monthlyPaymentsChartData = [[50, 50]];
-
         this.monthlyPaymentSummaryVM = [
             new PaymentSummaryVM("Capital", defaultAmountOfPaymentVM, '#fd7e14'),
             new PaymentSummaryVM("Interest", defaultAmountOfPaymentVM, '#0dcaf0'),
             new PaymentSummaryVM("Total", defaultAmountOfPaymentVM, 'white')
         ];
 
-        this.monthlyPaymentsChartColors = [
+    }
+
+    private initializeMonthlyPaymentChartData() {
+
+        const monthlyPaymentsChartLabels = ['Capital', 'Interest'];
+        const monthlyPaymentsChartData = [[50, 50]];
+        const monthlyPaymentsChartColors = [
             {
                 backgroundColor: [
                     '#fd7e14',
@@ -66,7 +75,7 @@ export class LoanCalculatorComponent implements OnInit {
                 ]
             }
         ];
-
+        this.monthlyPaymentsChartDataVM = new MonthlyPaymentsChartDataVM(monthlyPaymentsChartLabels, monthlyPaymentsChartData, monthlyPaymentsChartColors);
         this.isEnabledMonthlyPaymentChart = true;
     }
 
@@ -83,7 +92,6 @@ export class LoanCalculatorComponent implements OnInit {
         this.isEnabledTotalPaymentChart = true;
     }
 
-    //TODO refactor
     private initalizeRepamentSummary() {
         this.loanPaymentSummary = new LoanPaymentSummaryVM();
         this.loanPaymentSummary.TotalPayment = 0;
@@ -92,28 +100,22 @@ export class LoanCalculatorComponent implements OnInit {
         this.loanPaymentSummary.MonthlyInterest = 0;
     }
 
-    private initalizedLoanCalculationData() {
-        this.dataToCalculation = new LoanCalculationDataVM();
-        this.dataToCalculation.AnnualInterestInstallments = 3.5;
-        this.dataToCalculation.Currency = new DictionaryRecordVM('PLN', 1);
-    }
-
-    showMonthlyChart(){
+    showMonthlyChart() {
         this.isEnabledMonthlyPaymentChart = true;
         this.isEnabledMonthlyPaymentSummary = false;
     }
 
-    showMonthlyDetails(){
+    showMonthlyDetails() {
         this.isEnabledMonthlyPaymentChart = false;
         this.isEnabledMonthlyPaymentSummary = true;
     }
 
-    showTotalChart(){
+    showTotalChart() {
         this.isEnabledTotalPaymentChart = true;
         this.isEnabledTotalPaymentSummary = false;
     }
 
-    showTotalDetails(){
+    showTotalDetails() {
         this.isEnabledTotalPaymentChart = false;
         this.isEnabledTotalPaymentSummary = true;
     }
@@ -132,7 +134,7 @@ export class LoanCalculatorComponent implements OnInit {
 
     calculatePayments() {
         this.isServerError = false;
-        this.isLoading = true;
+        this.isLoanCalculatorDataLoading = true;
         this.loanPaymentSummary.NumberOfMonthlyIntallments = this.dataToCalculation.NumberOfAnnualInstallments;
 
         this.loanCalculatorService
@@ -144,7 +146,7 @@ export class LoanCalculatorComponent implements OnInit {
                     return throwError(err);
                 }),
                 finalize(() => {
-                    this.isLoading = false;
+                    this.isLoanCalculatorDataLoading = false;
                 })
             )
             .subscribe((data) => {
@@ -160,7 +162,7 @@ export class LoanCalculatorComponent implements OnInit {
                     new PaymentSummaryVM("Total Monthly Payment", new AmountOfPaymentVM(data.MonthlyPayment.toFixed(2), "PLN"), 'white')
                 ];
 
-                this.monthlyPaymentsChartData = [[Math.ceil((data.MonthlyPayment - data.MonthlyInterest) * 100) / 100, Math.ceil(data.MonthlyInterest * 100) / 100]];
+                this.monthlyPaymentsChartDataVM.Data = [[Math.ceil((data.MonthlyPayment - data.MonthlyInterest) * 100) / 100, Math.ceil(data.MonthlyInterest * 100) / 100]];
 
                 this.totalPaymentSummaryVM = [
                     new PaymentSummaryVM("Total value of loan", new AmountOfPaymentVM(data.TotalValueOfLoan.toFixed(2), "PLN"), 'green'),
@@ -168,7 +170,10 @@ export class LoanCalculatorComponent implements OnInit {
                     new PaymentSummaryVM("Total Payments", new AmountOfPaymentVM(data.TotalPayment.toFixed(2), "PLN"), 'white')
                 ];
 
-                this.isLoanPaymentsMonthlySummary = true;
+
+                this.isEnabledTotalPaymentChart
+
+                this.isListOfAllInstallmentsGenerated = true;
             });
     }
 }
