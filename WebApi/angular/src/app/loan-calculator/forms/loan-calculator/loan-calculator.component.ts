@@ -13,7 +13,7 @@ import { AmountOfPaymentVM, PaymentSummaryVM } from './../../model/';
     styleUrls: ['./loan-calculator.component.less'],
 })
 export class LoanCalculatorComponent implements OnInit {
-    loanDataCalculationData: ILoanCalculationDataVM;
+    dataToCalculation: ILoanCalculationDataVM;
     loanPaymentSummary: LoanPaymentSummaryVM;
     isLoading: boolean = false;
     isServerError: boolean = false;
@@ -93,9 +93,9 @@ export class LoanCalculatorComponent implements OnInit {
     }
 
     private initalizedLoanCalculationData() {
-        this.loanDataCalculationData = new LoanCalculationDataVM();
-        this.loanDataCalculationData.AnnualInterestInstallments = 3.5;
-        this.loanDataCalculationData.Currency = new DictionaryRecordVM('PLN', 1);
+        this.dataToCalculation = new LoanCalculationDataVM();
+        this.dataToCalculation.AnnualInterestInstallments = 3.5;
+        this.dataToCalculation.Currency = new DictionaryRecordVM('PLN', 1);
     }
 
     showMonthlyChart(){
@@ -119,24 +119,24 @@ export class LoanCalculatorComponent implements OnInit {
     }
 
     valueOfLoanChanged(value: number) {
-        this.loanDataCalculationData.TotalValueOfLoan = value;
+        this.dataToCalculation.TotalValueOfLoan = value;
     }
 
     numberOfAnnualInstallmentsChanged(value: number) {
-        this.loanDataCalculationData.NumberOfAnnualInstallments = value;
+        this.dataToCalculation.NumberOfAnnualInstallments = value;
     }
 
     isneccesaryDataCompleted(): boolean {
-        return this.loanDataCalculationData.TotalValueOfLoan && this.loanDataCalculationData.NumberOfAnnualInstallments ? true : false;
+        return this.dataToCalculation.TotalValueOfLoan && this.dataToCalculation.NumberOfAnnualInstallments ? true : false;
     }
 
     calculatePayments() {
         this.isServerError = false;
         this.isLoading = true;
-        this.loanPaymentSummary.NumberOfMonthlyIntallments = this.loanDataCalculationData.NumberOfAnnualInstallments;
+        this.loanPaymentSummary.NumberOfMonthlyIntallments = this.dataToCalculation.NumberOfAnnualInstallments;
 
         this.loanCalculatorService
-            .getLoanCalculation(this.loanDataCalculationData)
+            .getLoanCalculation(this.dataToCalculation)
             .pipe(
                 catchError((err) => {
                     this.errorMessage = 'Internal server error';
