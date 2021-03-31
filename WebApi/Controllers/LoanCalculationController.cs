@@ -51,7 +51,8 @@ namespace WebApi.Controllers
                     AmountOfCapitalAndInterest = (decimal)  monthlyAmountOfCapitalAndInterest,
                     AmountOfCapital = (decimal)  amountOfMonthlyCapital,
                     AmountOfInterest = (decimal)  amountOfMonthlyInterest,
-                    AmountOfCapitalRepaid = (decimal)  amountOfMonthlyCapital * i,
+                    AmountOfCapitalPaid = (decimal)  amountOfMonthlyCapital * i,
+                    AmountOfInterestPaid = (decimal)  amountOfMonthlyInterest * i,
                     AmountofPrincipalOutstanding = totalValueOfLoan -
                                                    (decimal) amountOfMonthlyCapital * i
                 });

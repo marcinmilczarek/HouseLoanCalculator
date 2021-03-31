@@ -4,9 +4,9 @@ import { LoanPaymentSummaryVM, DictionaryRecordVM } from '@loancalc/shared/model
 import { LoanCalculatorService } from 'app/loan-calculator/shared';
 import { catchError, finalize } from 'rxjs/operators';
 import { throwError } from 'rxjs';
-import { Label, MultiDataSet, Color } from 'ng2-charts';
-import { AmountOfPaymentVM, MonthlyPaymentsChartDataVM, PaymentSummaryVM } from './../../model/';
+import { AmountOfPaymentVM, PaymentsChartDataVM, PaymentSummaryVM } from './../../model/';
 import { ChartDataSets } from 'chart.js';
+import { Color, Label, SingleDataSet } from 'ng2-charts';
 
 @Component({
     selector: 'app-loan-calculator',
@@ -25,16 +25,14 @@ export class LoanCalculatorComponent implements OnInit {
     isEnabledMonthlyPaymentSummary: boolean = false;
     isEnabledMonthlyPaymentChart: boolean = false;
 
-    monthlyPaymentsChartDataVM: MonthlyPaymentsChartDataVM;
+    monthlyPaymentsChartDataVM: PaymentsChartDataVM;
     monthlyPaymentSummaryVM: PaymentSummaryVM[] = [];
 
     isEnabledTotalPaymentChart: boolean = false;
     isEnabledTotalPaymentSummary: boolean = false;
+
+    totalPaymentsChartDataVM: PaymentsChartDataVM;
     totalPaymentSummaryVM: PaymentSummaryVM[] = [];
-    totalPaymentChartData: ChartDataSets[] = [
-        { data: [100, 200, 300, 800, 1200, 800, 4660], label: 'remaining capital to paid' },
-        { data: [2100, 1800, 300, 1100, 100, 80000, 40], label: 'interest paid' },
-    ];
 
     constructor(private loanCalculatorService: LoanCalculatorService) { }
 
@@ -44,6 +42,7 @@ export class LoanCalculatorComponent implements OnInit {
         this.initializeMonthlyPaymentChartData();
         this.initializeMonthlyPaymentSummaryData();
         this.initializeTotalPaymentSummary();
+        this.initializeTotalPaymentChartData();
     }
 
     private initalizedLoanCalculationData() {
@@ -65,9 +64,9 @@ export class LoanCalculatorComponent implements OnInit {
 
     private initializeMonthlyPaymentChartData() {
 
-        const monthlyPaymentsChartLabels = ['Capital', 'Interest'];
-        const monthlyPaymentsChartData = [[50, 50]];
-        const monthlyPaymentsChartColors = [
+        const monthlyPaymentsChartLabels: Label[] = ['Capital', 'Interest'];
+        const monthlyPaymentsChartData: SingleDataSet[] = [];
+        const monthlyPaymentsChartColors: Color[] = [
             {
                 backgroundColor: [
                     '#fd7e14',
@@ -75,7 +74,7 @@ export class LoanCalculatorComponent implements OnInit {
                 ]
             }
         ];
-        this.monthlyPaymentsChartDataVM = new MonthlyPaymentsChartDataVM(monthlyPaymentsChartLabels, monthlyPaymentsChartData, monthlyPaymentsChartColors);
+        this.monthlyPaymentsChartDataVM = new PaymentsChartDataVM(monthlyPaymentsChartLabels, monthlyPaymentsChartData, monthlyPaymentsChartColors);
         this.isEnabledMonthlyPaymentChart = true;
     }
 
@@ -85,10 +84,22 @@ export class LoanCalculatorComponent implements OnInit {
         let defaultAmountOfPaymentVM = new AmountOfPaymentVM(defaultValue.toFixed(2), "PLN");
         this.totalPaymentSummaryVM = [
             new PaymentSummaryVM("Total loan amount", defaultAmountOfPaymentVM, 'green'),
-            new PaymentSummaryVM("Total Interest", defaultAmountOfPaymentVM, 'red'),
+            new PaymentSummaryVM("Total Interest", defaultAmountOfPaymentVM, '#0dcaf0'),
             new PaymentSummaryVM("Total Payments", defaultAmountOfPaymentVM, 'white')
         ];
 
+        this.isEnabledTotalPaymentChart = true;
+    }
+
+    private initializeTotalPaymentChartData() {
+
+        const totalPaymentChartData: ChartDataSets[] = [
+            { data: [], label: 'remaining capital to paid', backgroundColor: '#fd7e14' },
+            { data: [], label: 'interest paid', backgroundColor: '#0dcaf0' },
+        ];
+        const totalPaymentsChartLabels: Label[] = [];
+
+        this.totalPaymentsChartDataVM = new PaymentsChartDataVM(totalPaymentsChartLabels, totalPaymentChartData);
         this.isEnabledTotalPaymentChart = true;
     }
 
@@ -170,9 +181,42 @@ export class LoanCalculatorComponent implements OnInit {
                     new PaymentSummaryVM("Total Payments", new AmountOfPaymentVM(data.TotalPayment.toFixed(2), "PLN"), 'white')
                 ];
 
+               
+                let remainingCapitalToPaidForEveryMonth: number[] = [];
+                let capitalPaid: number[] = [];
+                let interestPaid: number[] = [];
+                let numberOfInstallments: string[] = [];
+                let totalPaymentChartData: ChartDataSets[] = [];
 
-                this.isEnabledTotalPaymentChart
+                if (this.loanPaymentSummary.NumberOfMonthlyIntallments <= 24) {
 
+                    this.loanPaymentSummary.MonthlyInstallmentData.forEach(data => {
+                        remainingCapitalToPaidForEveryMonth.push(data.AmountofPrincipalOutstanding);
+                        interestPaid.push(data.AmountOfInterestPaid);
+                        capitalPaid.push(data.AmountOfCapitalPaid);
+                        numberOfInstallments.push(data.Id + 'M');
+                    });
+                } else {
+                     let counter = 1;
+                     this.loanPaymentSummary.MonthlyInstallmentData.forEach(data => {
+
+                        if(data.Id % 12 === 0){
+                            remainingCapitalToPaidForEveryMonth.push(data.AmountofPrincipalOutstanding);
+                            interestPaid.push(data.AmountOfInterestPaid);
+                            capitalPaid.push(data.AmountOfCapitalPaid);
+                            numberOfInstallments.push(counter++ + 'Y');
+                        }
+                    });
+                }
+
+                totalPaymentChartData = [
+                    { data: remainingCapitalToPaidForEveryMonth, label: 'remaining capital to paid', backgroundColor: '#fd7e14' },
+                    { data: interestPaid, label: 'interest paid', backgroundColor: '#0dcaf0' },
+                    // { data: capitalPaid, label: 'capital paid', backgroundColor: '#0dcaf0' },
+                ];
+                this.totalPaymentsChartDataVM = new PaymentsChartDataVM(numberOfInstallments, totalPaymentChartData);
+
+                this.isEnabledTotalPaymentChart = true;
                 this.isListOfAllInstallmentsGenerated = true;
             });
     }

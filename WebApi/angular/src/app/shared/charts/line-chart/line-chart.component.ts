@@ -11,16 +11,8 @@ export class LineChartComponent {
 
     @Input() lineChartLabels: Label[] = [];
     @Input() lineChartdata: ChartDataSets[] = [];
-    @Input() lineChartColors: Color[] = [];
 
-    
-    // lineChartLabels: Label[] = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
-    // data: ChartDataSets[]  = [
-    //     { data: [100, 200, 300, 800, 1200, 800, 4660], label: 'capital'},
-    //     { data: [2100, 1800, 300, 1100, 100, 80000, 40], label: 'interest'},
-    // ];
-
-    lineChartOptions = {responsive: true,};
+    lineChartOptions = {responsive: true, maintainAspectRatio: false};
     lineChartType: ChartType = 'line';
     lineChartPlugins:any = [];
 

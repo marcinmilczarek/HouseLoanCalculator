@@ -6,7 +6,8 @@
                     <th style="width: 45px">Number installment</th>
                     <th>Monthly interest</th>
                     <th>Monthly total payment</th>
-                    <th>Repaid capital</th>
+                    <th>Paid capital</th>
+                    <th>Paid interest</th>
                     <th>Capital to repayment</th>
                 </tr>
             </thead>
@@ -15,7 +16,8 @@
                     <td>{{ installmentData.Id | number }}</td>
                     <td>{{ installmentData.AmountOfInterest | number: '1.2-2' }}</td>
                     <td>{{ installmentData.AmountOfCapitalAndInterest | number: '1.2-2' }}</td>
-                    <td>{{ installmentData.AmountOfCapitalRepaid | number: '1.2-2' }}</td>
+                    <td>{{ installmentData.AmountOfCapitalPaid | number: '1.2-2' }}</td>
+                    <td>{{ installmentData.AmountOfInterestPaid | number: '1.2-2' }}</td>
                     <td>{{ installmentData.AmountofPrincipalOutstanding | number: '1.2-2' }}</td>
                 </tr>
             </tbody>

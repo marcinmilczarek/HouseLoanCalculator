@@ -4,7 +4,8 @@ export interface IMonthlyInstallmentDataVM {
     AmountOfCapitalAndInterest: number;
     AmountOfInterest: number;
     AmountOfCapital: number;
-    AmountOfCapitalRepaid: number;
+    AmountOfCapitalPaid: number;
+    AmountOfInterestPaid: number;
     AmountofPrincipalOutstanding: number;
 }
 export class MonthlyInstallmentDataVM implements IMonthlyInstallmentDataVM {
@@ -12,6 +13,7 @@ export class MonthlyInstallmentDataVM implements IMonthlyInstallmentDataVM {
     AmountOfCapitalAndInterest: number;
     AmountOfInterest: number;
     AmountOfCapital: number;
-    AmountOfCapitalRepaid: number;
+    AmountOfCapitalPaid: number;
+    AmountOfInterestPaid: number;
     AmountofPrincipalOutstanding: number;
 }

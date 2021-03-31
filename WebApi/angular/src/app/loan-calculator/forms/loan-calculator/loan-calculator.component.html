@@ -6,7 +6,7 @@
 <div class="container-fluid">
   <div class="grid">
     <div class="controller-container">
-      <div style="max-width: 350px;">
+      <div style="max-width: 300px;">
         <ul ngbNav #navDetails="ngbNav" class="nav-tabs">
           <li [ngbNavItem]="1">
             <a ngbNavLink>Loan Details</a>
@@ -108,11 +108,10 @@
               <calculation-summary *ngIf="isEnabledTotalPaymentSummary" id="LoanCalculatorComponent_TotalPaymentSummary"
                 [paymentSummaryVM]="totalPaymentSummaryVM">
               </calculation-summary>
-              <!-- <div *ngIf="isEnabledTotalPaymentChart" id="LoanCalculatorComponent_TotalPaymentChart">
-                <line-chart [lineChartLabels]="totalPaymentsChartLabels" [lineChartdata]="totalPaymentsChartData"
-                  [lineChartColors]="totalPaymentsChartColors">
+              <div *ngIf="isEnabledTotalPaymentChart" id="LoanCalculatorComponent_TotalPaymentChart">
+                <line-chart [lineChartLabels]="totalPaymentsChartDataVM.Labels" [lineChartdata]="totalPaymentsChartDataVM.Data">
                 </line-chart>
-              </div> -->
+              </div>
             </ng-template>
           </li>
           <li [ngbNavItem]="3">

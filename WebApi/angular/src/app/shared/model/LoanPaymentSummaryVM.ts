@@ -11,7 +11,7 @@ export interface ILoanPaymentSummaryVM {
     LoanStartDate: Date;
     LoanPayOffDate: Date;
     Currency: DictionaryRecordVM;
-    MonthlyInstallmentDataVM: MonthlyInstallmentDataVM[];
+    MonthlyInstallmentData: MonthlyInstallmentDataVM[];
 }
 export class LoanPaymentSummaryVM implements ILoanPaymentSummaryVM {
     TotalPayment: number;
@@ -23,5 +23,5 @@ export class LoanPaymentSummaryVM implements ILoanPaymentSummaryVM {
     LoanStartDate: Date;
     LoanPayOffDate: Date;
     Currency: DictionaryRecordVM;
-    MonthlyInstallmentDataVM: MonthlyInstallmentDataVM[];
+    MonthlyInstallmentData: MonthlyInstallmentDataVM[];
 }
