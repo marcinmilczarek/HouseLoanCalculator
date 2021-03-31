@@ -20,7 +20,9 @@ namespace WebApi.Controllers
         }
 
         //TODO move to BL and try make this logic generic regardless of the type of loan 
-        //TODO add unit tests
+        //TODO choose between factory pattern or builder pattern
+        //add automapper
+        //TODO add unit tests + use fluen nhibernate
         [HttpGet]
         [Route("paymentsummary")]
         public LoanPaymentSummaryVM Get([FromQuery]decimal totalValueOfLoan, [FromQuery]int numberOfAnnualInstallments, 
